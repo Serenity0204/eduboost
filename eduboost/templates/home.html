@@ -1,4 +1,77 @@
-{% extends 'base.html' %}
+<!-- home.html -->
 
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
+    <!-- Slider -->
+    <section id="slider">
+        <div class="d-flex justify-content-center">
+            <h1>Popular Courses</h1>
+        </div>
+        <div class="container">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <a href="SFML-by-projects.html" target="_blank">
+                            <div class="d-flex justify-content-center">
+                            </div>
+                            <img class="card-img-top" src="{% static 'img/SFML.jpg' %}" alt="SFML">
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="DSA-by-projects.html" target="_blank">
+                            <div class="d-flex justify-content-center">
+                            </div>
+                            <img class="card-img-top" src="{% static 'img/SFML.jpg' %}" alt="DSA">
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="circuit101.html" target="_blank">
+                            <div class="d-flex justify-content-center">
+                            </div>
+                            <img class="card-img-top" src="{% static 'img/SFML.jpg' %}" alt="Circuit">
+                        </a>
+                    </div>
+                </div>
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+            </div>
+        </div>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </section>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mt-4">All Courses</h2>
+        </div>
+    </div>
+    <div class="row">
+        {% for course in courses %}
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top" src="{{ course.preview_img.url }}" alt="Circuit101">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ course.title }}</h4>
+                        <p class="card-text">{{ course.description }}</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                        {% comment %} {% url 'course_details' course_id=course.id %} {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
