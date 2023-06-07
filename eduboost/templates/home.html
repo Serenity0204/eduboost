@@ -3,90 +3,91 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
- <!-- About -->
-    <section id="about">
-        <div class="container">
-            <div class="d-flex justify-content-center">
-                <h1>Welcome to EduBoost</h1>
-            </div>
-            <div class="d-flex justify-content-center">
-                <p>An Education Platform that provides free and hands on learning experiences.</p>
-            </div>
-            <img class="card-img-top" src="{% static 'img/eduboost.png' %}" alt="EduBoost">
+<!-- About -->
+<section id="about">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1>Welcome to EduBoost</h1>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p>An Education Platform that provides free and hands on learning experiences.</p>
+        </div>
+        <img class="card-img-top" src="{% static 'img/eduboost.png' %}" alt="EduBoost">
 
-            <div class="d-flex justify-content-center">
-                <a href="{% url 'login' %}" class="btn btn-primary"
-                    style="margin-top: 25px; margin-right: 15px; font-size: 30px; padding: 15px 20px;">Get
-                    Started</a>
-            </div>
-        </div>
-    </section>
-    <!-- Slider -->
-    <section id="slider">
-        <div class="d-flex justify-content-center" style="margin-top: 25px; margin-right: 15px; font-size: 30px; padding: 15px 20px;">
-            <h1>Popular Courses</h1>
-        </div>
-        <div class="container">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    {% for popular_course in popular_courses %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <div class="d-flex justify-content-center">
-                                <h3>{{ popular_course.title }}</h3>
-                            </div>
-                            <a href="#" target="_blank">
-                                <img class="card-img-top" src="{{ popular_course.preview_img.url }}" alt="popular_course" width="300" height="600">
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-                <!-- Left and right controls -->
-                <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </a>
-                <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </a>
-            </div>
-        </div>
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- Bootstrap JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script>
-            // Set carousel sliding interval and animation speed
-            $('.carousel').carousel({
-                interval: 5000,  // 5 seconds
-                pause: 'hover'  // Pause on hover
-            });
-            
-            // Add CSS transition class to carousel items for animation
-            $('.carousel-item').addClass('carousel-item-animate');
-        </script>
-        <style>
-            .carousel-item-animate {
-                transition: transform 0.6s ease;
-            }
-        </style>
-    </section>    
-    <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-center mt-4">All Courses</h2>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'login' %}" class="btn btn-primary"
+                style="margin-top: 25px; margin-right: 15px; font-size: 30px; padding: 15px 20px;">Get
+                Started</a>
         </div>
     </div>
-    <div class="row">
-        {% for course in courses %}
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="{{ course.preview_img.url }}" alt="Circuit101" width="300" height="300">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ course.title }}</h4>
-                        <p class="card-text">{{ course.description }}</p>
-                        <a href="#" class="btn btn-primary">Learn More</a>
-                        {% comment %} {% url 'course_details' course_id=course.id %} {% endcomment %}
+</section>
+<!-- Slider -->
+<section id="slider">
+    <div class="d-flex justify-content-center"
+        style="margin-top: 25px; margin-right: 15px; font-size: 30px; padding: 15px 20px;">
+        <h1>Popular Courses</h1>
+    </div>
+    <div class="container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for popular_course in popular_courses %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="d-flex justify-content-center">
+                        <h3>{{ popular_course.title }}</h3>
                     </div>
+                    <a href="{% url 'course_detail' popular_course.id %}" target="_blank">
+                        <img class="card-img-top" src="{{ popular_course.preview_img.url }}" alt="popular_course"
+                            width="300" height="600">
+                    </a>
                 </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
     </div>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        // Set carousel sliding interval and animation speed
+        $('.carousel').carousel({
+            interval: 5000,  // 5 seconds
+            pause: 'hover'  // Pause on hover
+        });
+
+        // Add CSS transition class to carousel items for animation
+        $('.carousel-item').addClass('carousel-item-animate');
+    </script>
+    <style>
+        .carousel-item-animate {
+            transition: transform 0.6s ease;
+        }
+    </style>
+</section>
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-center mt-4">All Courses</h2>
+    </div>
+</div>
+<div class="row">
+    {% for course in courses %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top" src="{{ course.preview_img.url }}" alt="Circuit101" width="300" height="300">
+            <div class="card-body">
+                <h4 class="card-title">{{ course.title }}</h4>
+                <p class="card-text">{{ course.description }}</p>
+                <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

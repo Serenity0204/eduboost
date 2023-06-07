@@ -57,5 +57,13 @@ def logout_view(request):
     return redirect("login")
 
 
+@login_required(login_url="login")
 def my_courses_view(request):
     return render(request, "home.html")
+
+
+@login_required(login_url="login")
+def course_detail_view(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    context = {"course_detail": course}
+    return render(request, "course_detail.html")
