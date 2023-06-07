@@ -29,15 +29,15 @@
         <div class="container">
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    {% for course in courses %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <div class="d-flex justify-content-center">
-                            <h3>{{ course.title }}</h3>
+                    {% for popular_course in popular_courses %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="d-flex justify-content-center">
+                                <h3>{{ popular_course.title }}</h3>
+                            </div>
+                            <a href="#" target="_blank">
+                                <img class="card-img-top" src="{{ popular_course.preview_img.url }}" alt="popular_course" width="300" height="600">
+                            </a>
                         </div>
-                        <a href="#" target="_blank">
-                            <img class="card-img-top" src="{{ course.preview_img.url }}" alt="course" width="300" height="600">
-                        </a>
-                    </div>
                     {% endfor %}
                 </div>
                 <!-- Left and right controls -->

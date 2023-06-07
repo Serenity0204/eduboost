@@ -9,7 +9,8 @@ from .models import Course
 def home_view(request):
     ## add popular courses later
     courses = Course.objects.all()
-    context = {'courses': courses}
+    popular_courses = Course.objects.filter(is_featured=True)
+    context = {'courses': courses, 'popular_courses': popular_courses}
     return render(request, 'home.html', context)
 
 
