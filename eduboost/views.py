@@ -7,14 +7,6 @@ from django.contrib import messages
 from .models import Course
 
 
-def home_view(request):
-    ## add popular courses later
-    courses = Course.objects.all()
-    popular_courses = Course.objects.filter(is_featured=True)
-    context = {"courses": courses, "popular_courses": popular_courses}
-    return render(request, "home.html", context)
-
-
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -57,9 +49,21 @@ def logout_view(request):
     return redirect("login")
 
 
+def home_view(request):
+    popular_courses = Course.objects.filter(is_featured=True)
+    context = {"popular_courses": popular_courses}
+    return render(request, "home.html", context)
+
+
 @login_required(login_url="login")
-def my_courses_view(request):
-    return render(request, "home.html")
+def profile_view(request):
+    return render(request, "profile.html")
+
+
+def courses_view(request):
+    courses = Course.objects.all()
+    context = {"courses": courses}
+    return render(request, "courses.html", context)
 
 
 @login_required(login_url="login")
