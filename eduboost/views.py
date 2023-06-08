@@ -63,7 +63,8 @@ def courses_view(request):
 
 @login_required(login_url="login")
 def profile_view(request):
-    return render(request, "profile.html")
+    context = {}
+    return render(request, "profile.html", context)
 
 
 @login_required(login_url="login")
@@ -83,5 +84,6 @@ def unenroll_view(request, course_id):
 @login_required(login_url="login")
 def course_detail_view(request, course_id):
     course = Course.objects.get(pk=course_id)
-    context = {"course_detail": course}
-    return render(request, "course_detail.html")
+    lessons = course.lessons.all()
+    context = {"course_detail": course, "lessons": lessons}
+    return render(request, "course_detail.html", context)
