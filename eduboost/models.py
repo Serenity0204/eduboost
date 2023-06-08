@@ -14,9 +14,6 @@ class Course(models.Model):
     preview_img = models.ImageField(upload_to="images/", default=get_default_image)
     is_featured = models.BooleanField(default=False)
 
-    def unenroll(self, user):
-        self.students.remove(user)
-
     def __str__(self):
         return self.title
 

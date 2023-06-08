@@ -55,15 +55,29 @@ def home_view(request):
     return render(request, "home.html", context)
 
 
+def courses_view(request):
+    courses = Course.objects.all()
+    context = {"courses": courses}
+    return render(request, "courses.html", context)
+
+
 @login_required(login_url="login")
 def profile_view(request):
     return render(request, "profile.html")
 
 
-def courses_view(request):
-    courses = Course.objects.all()
-    context = {"courses": courses}
-    return render(request, "courses.html", context)
+@login_required(login_url="login")
+def enroll_view(request, course_id):
+    course = Course.objects.get(id=course_id)
+    request.user.courses.add(course)
+    return redirect("course_detail", course_id=course_id)
+
+
+@login_required(login_url="login")
+def unenroll_view(request, course_id):
+    course = Course.objects.get(id=course_id)
+    request.user.courses.remove(course)
+    return redirect("course_detail", course_id=course_id)
 
 
 @login_required(login_url="login")
