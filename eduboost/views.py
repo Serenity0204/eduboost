@@ -54,23 +54,26 @@ def home_view(request):
     context = {"popular_courses": popular_courses}
     return render(request, "home.html", context)
 
-def about_view(request):
-    return render(request, 'about.html')
 
-    
+def about_view(request):
+    return render(request, "about.html")
+
+
 def courses_view(request):
     courses = Course.objects.all()
     context = {"courses": courses}
     return render(request, "courses.html", context)
 
+
 def search_view(request):
-    query = request.GET.get('query')
+    query = request.GET.get("query")
     if query:
         courses = Course.objects.filter(title__startswith=query)
     else:
         courses = []
-    context = {'courses': courses, 'query': query}
-    return render(request, 'search.html', context)
+    context = {"courses": courses, "query": query}
+    return render(request, "search.html", context)
+
 
 @login_required(login_url="login")
 def profile_view(request):
@@ -95,7 +98,11 @@ def unenroll_view(request, course_id):
 @login_required(login_url="login")
 def course_detail_view(request, course_id):
     course = Course.objects.get(pk=course_id)
-    lessons = course.lessons.all()
-    context = {"course_detail": course, "lessons": lessons}
+    lessons = None
+    is_enrolled = False
+    enrollment_list = course.students.all()
+    if request.user in enrollment_list:
+        is_enrolled = True
+        lessons = course.lessons.all()
+    context = {"course": course, "lessons": lessons, "is_enrolled": is_enrolled}
     return render(request, "course_detail.html", context)
-

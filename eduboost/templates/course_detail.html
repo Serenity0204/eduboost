@@ -4,34 +4,54 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center">
-            <h1>{{ course_detail.title }}</h1>
+            <h1>{{ course.title }}</h1>
             <div class="d-flex justify-content-center mt-4">
                 <div class="card bg-dark text-white">
                     <div class="card-body">
-                        <p class="text-center px-4" style="font-size: 18px;">
-                            {{ course_detail.description }}
-                        </p>
+                        <p class="text-center px-4" style="font-size: 18px;">{{ course.description }}</p>
                     </div>
                 </div>
             </div>
-            <img src="{{ course_detail.preview_img.url }}" alt="Course Preview Image"
-                class="img-fluid mx-auto d-block mt-4 mb-4" style="padding: 10px;" width="700px" height="500px">
+            <img src="{{ course.preview_img.url }}" alt="Course Preview Image"
+                class="img-fluid mx-auto d-block mt-4 mb-2" style="padding: 10px;" width="700px" height="500px">
 
-            <h2>Lessons:</h2>
+            {% if is_enrolled %}
+            <form action="{% url 'unenroll' course.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger mt-2 btn-lg">Unenroll</button>
+            </form>
+            {% else %}
+            <form action="{% url 'enroll' course.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary mt-2 btn-lg">Enroll</button>
+            </form>
+            {% endif %}
+
+            <h2 class="mt-4">Lessons:</h2>
             <ul class="list-group">
-                {% for lesson in course_detail.lessons.all %}
-                <li class="list-group-item">{{ lesson.title }}</li>
-                {% for video in lesson.videos.all %}
-                <div class="card my-2">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ video.title }}</h4>
-                        <iframe class="embed-responsive-item" width="560" height="315" src="{{ video.youtube_link }}"
-                            frameborder="0" allowfullscreen></iframe>
+                {% for lesson in lessons %}
+                <li class="list-group-item">
+                    <a class="btn btn-link folded" data-toggle="collapse" href="#collapse{{ lesson.id }}" role="button"
+                        aria-expanded="false" aria-controls="collapse{{ lesson.id }}">
+                        {{ lesson.title }}
+                    </a>
+                    <div class="collapse" id="collapse{{ lesson.id }}">
+                        <div class="card card-body">
+                            {% for video in lesson.videos.all %}
+                            <div class="card my-2">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ video.title }}</h4>
+                                    <iframe class="embed-responsive-item" width="560" height="315"
+                                        src="{{ video.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
+                </li>
                 {% endfor %}
             </ul>
+
         </div>
     </div>
 </div>
