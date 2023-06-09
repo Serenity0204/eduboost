@@ -77,8 +77,10 @@ def search_view(request):
 
 @login_required(login_url="login")
 def profile_view(request):
-    context = {}
-    return render(request, "profile.html", context)
+    user = request.user
+    courses = user.courses.all()
+    context = {'courses': courses}
+    return render(request, 'profile.html', context)
 
 
 @login_required(login_url="login")

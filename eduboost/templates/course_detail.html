@@ -13,45 +13,46 @@
                 </div>
             </div>
             <img src="{{ course.preview_img.url }}" alt="Course Preview Image"
-                class="img-fluid mx-auto d-block mt-4 mb-2" style="padding: 10px;" width="700px" height="500px">
+                class="img-fluid mx-auto d-block mt-4 mb-2" style="padding: 10px;" width="400" height="300">
 
             {% if is_enrolled %}
             <form action="{% url 'unenroll' course.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger mt-2 btn-lg">Unenroll</button>
+                <button type="submit" onclick="return confirm('Are You Sure to Unenroll?')" class="btn btn-danger mt-2 btn-lg">Unenroll</button>
             </form>
             {% else %}
             <form action="{% url 'enroll' course.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary mt-2 btn-lg">Enroll</button>
+                <button type="submit" onclick="return confirm('Confirm the Enrollment.')"class="btn btn-primary mt-2 btn-lg">Enroll</button>
             </form>
             {% endif %}
 
             <h2 class="mt-4">Lessons:</h2>
-            <ul class="list-group">
-                {% for lesson in lessons %}
-                <li class="list-group-item">
-                    <a class="btn btn-link folded" data-toggle="collapse" href="#collapse{{ lesson.id }}" role="button"
-                        aria-expanded="false" aria-controls="collapse{{ lesson.id }}">
-                        {{ lesson.title }}
-                    </a>
-                    <div class="collapse" id="collapse{{ lesson.id }}">
-                        <div class="card card-body">
-                            {% for video in lesson.videos.all %}
-                            <div class="card my-2">
-                                <div class="card-body">
-                                    <h4 class="card-title">{{ video.title }}</h4>
-                                    <iframe class="embed-responsive-item" width="560" height="315"
-                                        src="{{ video.youtube_link }}" frameborder="0" allowfullscreen></iframe>
-                                </div>
+            {% if lessons %}
+                <ul class="list-group">
+                    {% for lesson in lessons %}
+                        <li class="list-group-item">
+                            <a class="btn btn-link folded" data-toggle="collapse" href="#collapse{{ lesson.id }}" role="button"
+                                aria-expanded="false" aria-controls="collapse{{ lesson.id }}">
+                                {{ lesson.title }}
+                            </a>
+                            <div class="collapse" id="collapse{{ lesson.id }}">
+                                {% for video in lesson.videos.all %}
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ video.title }}</h4>
+                                        <iframe class="embed-responsive-item" width="560" height="315"
+                                            src="{{ video.youtube_link }}" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-
+                        </li>
+                    {% endfor %}
+                </ul>   
+            {% else %}
+                <div class="d-flex justify-content-center">
+                    <h3 class="text-center">No Lessons Posted Yet.</h3>   
+                </div>
+            {% endif %}         
         </div>
     </div>
 </div>
