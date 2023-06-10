@@ -48,10 +48,14 @@
                         </li>
                     {% endfor %}
                 </ul>   
-            {% else %}
+            {% elif is_enrolled %}
                 <div class="d-flex justify-content-center">
                     <h3 class="text-center">No Lessons Posted Yet.</h3>   
                 </div>
+            {% else  %}
+                <div class="d-flex justify-content-center">
+                    <h3 class="text-center">Enroll to Check The Course.</h3>   
+                </div> 
             {% endif %}         
         </div>
     </div>

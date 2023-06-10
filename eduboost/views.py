@@ -5,16 +5,26 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib import messages
 from .models import Course
+from django.utils import timezone
+from datetime import timedelta
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        request.session.set_expiry(
+            900
+        )  # Reset session expiry to 15 minutes (900 seconds)
+        return redirect("home")
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
-        # login if anthenticate success
+        # login if authenticate success
         if user is not None:
             login(request, user)
+            request.session.set_expiry(
+                900
+            )  # Set session expiry to 15 minutes (900 seconds)
             return redirect("home")
         else:
             message = "Incorrect Username or Password Entered"
@@ -25,6 +35,11 @@ def login_view(request):
 
 
 def register_view(request):
+    if request.user.is_authenticated:
+        request.session.set_expiry(
+            900
+        )  # Reset session expiry to 15 minutes (900 seconds)
+        return redirect("home")
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -35,6 +50,9 @@ def register_view(request):
                 username=username, password=password, email=email
             )
             login(request, user)
+            request.session.set_expiry(
+                900
+            )  # Set session expiry to 15 minutes (900 seconds)
             return redirect("home")
         except IntegrityError:
             messages.error(request, "Username Already Exists")
@@ -50,22 +68,26 @@ def logout_view(request):
 
 
 def home_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     popular_courses = Course.objects.filter(is_featured=True)
     context = {"popular_courses": popular_courses}
     return render(request, "home.html", context)
 
 
 def about_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     return render(request, "about.html")
 
 
 def courses_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     courses = Course.objects.all()
     context = {"courses": courses}
     return render(request, "courses.html", context)
 
 
 def search_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     query = request.GET.get("query")
     if query:
         courses = Course.objects.filter(title__startswith=query)
@@ -77,14 +99,16 @@ def search_view(request):
 
 @login_required(login_url="login")
 def profile_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     user = request.user
     courses = user.courses.all()
-    context = {'courses': courses}
-    return render(request, 'profile.html', context)
+    context = {"courses": courses}
+    return render(request, "profile.html", context)
 
 
 @login_required(login_url="login")
 def enroll_view(request, course_id):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     course = Course.objects.get(id=course_id)
     request.user.courses.add(course)
     return redirect("profile")
@@ -92,6 +116,7 @@ def enroll_view(request, course_id):
 
 @login_required(login_url="login")
 def unenroll_view(request, course_id):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     course = Course.objects.get(id=course_id)
     request.user.courses.remove(course)
     return redirect("profile")
@@ -99,6 +124,7 @@ def unenroll_view(request, course_id):
 
 @login_required(login_url="login")
 def course_detail_view(request, course_id):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     course = Course.objects.get(pk=course_id)
     lessons = None
     is_enrolled = False

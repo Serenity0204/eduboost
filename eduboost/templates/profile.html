@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <style>
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+    </style>
     <div class="container mt-4">
         <h1 class="text-center">My Enrolled Courses</h1>
         {% if courses %}
