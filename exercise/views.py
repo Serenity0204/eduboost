@@ -34,13 +34,13 @@ def exercise_detail_view(request, exercise_id):
             try:
                 output, error = run_cpp(cpp_code)
                 if str(output).strip() == str(answer).strip():
-                    correct_msg = f"Answer Is Correct, Congrats!"
+                    correct_msg = f"The Answer Is Correct, Congrats!"
                     correct = True
                 else:
                     if error:
                         correct_msg = "Compilation Error"
                     else:
-                        correct_msg = f"Answer Is Not Correct.\nExpected:\n{answer}\nBut Found:\n{output}"
+                        correct_msg = f"The Answer Is Not Correct.\nExpected:\n{answer}\nBut Found:\n{output}"
                 context = {
                     "form": form,
                     "error": error,
