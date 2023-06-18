@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <style>
+        .CodeMirror {
+            height: 600px;
+        }
+        .CodeMirror-scroll {
+            max-height: 600px;
+        }
+    </style>
+    <div class="text-center mb-4">
+        <h1 style="display: inline;">{{ exercise.title }}</h1>
+    </div>
+    <div class="text-center mb-4">
+        <p style="display: inline;">{{ exercise.description }}</p>
+    </div>
+    <img src="{{ exercise.img.url }}" alt="Course Preview Image" class="img-fluid mx-auto d-block mt-4 mb-2" style="padding: 10px;" width="400" height="300">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <textarea class="form-control" id="cpp" name="cpp">{{ form.cpp.value|default_if_none:'' }}</textarea>
+        </div>
+        <div class="text-center mb-4">
+            <button type="submit" class="btn btn-primary">Run</button>
+            <a href = {% url 'coding_exercise_detail' exercise.id %} class="btn btn-primary">Refresh</a>
+        </div>
+
+    </form>
+    {% if not error and correct and correct_msg%}
+        <div class="alert alert-success">
+            <pre>{{ correct_msg }}</pre>
+        </div>
+    {% elif not error and not correct and correct_msg %}
+        <div class="alert alert-danger">
+            <pre>{{ correct_msg }}</pre>
+        </div>
+    {% elif error and not correct%}
+        <div class="alert alert-danger">
+            <h3>Error:</h3>
+            <pre>{{ correct_msg }}</pre>
+        </div>
+    {% endif %}
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("cpp"), {
+            lineNumbers: true,
+            mode: "text/x-c++src",
+            autoCloseBrackets: true,
+            undoDepth: 50,
+            extraKeys: {
+                "Ctrl-Z": "undo",
+                "Cmd-Z": "undo",
+                "Ctrl-Y": "redo",
+                "Cmd-Y": "redo",
+                "Tab": function(cm) {
+                    if (cm.somethingSelected()) {
+                        cm.indentSelection("add");
+                    } else {
+                        cm.execCommand("insertSoftTab");
+                    }
+                },
+                "Shift-Tab": function(cm) {
+                    cm.indentSelection("subtract");
+                }
+            },
+            indentUnit: 4,
+            tabSize: 4,
+            indentWithTabs: false
+        });
+    </script>
+{% endblock %}
