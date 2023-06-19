@@ -3,8 +3,69 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="text-center">
-    <h1>Exercise List</h1>
+
+  <div class="d-flex justify-content-center mt-4">
+    <div class="card bg-gray">
+        <div class="card-body">
+            <p id="typing-text" class="text-center px-4 flame-text" style="font-size: 18px;"></p>
+        </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes flaming {
+        0% {
+            background-position: 0 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0 50%;
+        }
+    }
+
+    .flame-text {
+        background-image: linear-gradient(-45deg, #ff9100, #ff3e00, #ff9100);
+        background-size: 200% 100%;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: flaming 2s linear infinite;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+  </style>
+
+  <script>
+    const text = "\"Practice Makes Perfect.\"";
+    let index = 0;
+    let typingInterval;
+
+    function typeText() {
+        if (index < text.length) {
+            const typingElement = document.getElementById('typing-text');
+            typingElement.innerHTML += text.charAt(index);
+            index++;
+            typingInterval = setTimeout(typeText, 50); // Adjust typing speed (milliseconds)
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        typeText();
+    });
+  </script>
+  <div class="row">
+    <div class="col-md-12">
+        <h1 class="text-center mt-4">Exercise List</h1>
+    </div>
   </div>
 
   <div class="row justify-content-center">
