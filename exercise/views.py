@@ -12,7 +12,6 @@ from .utils import run_cpp
 from django.http import HttpResponse
 
 
-@login_required(login_url="login")
 def exercise_view(request):
     exercises = Exercise.objects.all()
     context = {"exercises": exercises}
