@@ -3,10 +3,14 @@ import tempfile
 import os
 import shutil
 from functools import lru_cache
+from subprocess import TimeoutExpired
 
 
 # Maximum size of the cache (adjust as needed)
 MAX_CACHE_SIZE = 100
+
+# Timeout for the subprocess execution (in seconds)
+EXECUTION_TIMEOUT = 5
 
 
 @lru_cache(maxsize=MAX_CACHE_SIZE)
@@ -30,16 +34,32 @@ def run_cpp(code):
 
         if compile_result.returncode == 0:
             # Execution if compilation succeeds
-            # Execute the compiled C++ code
-            result = subprocess.run(exe_file, capture_output=True, text=True)
+            result = None  # Initialize the result variable
 
-            # Return the output and error (if any)
-            return result.stdout, result.stderr
+            try:
+                # Execute the compiled C++ code with a timeout
+                result = subprocess.run(
+                    [exe_file],
+                    capture_output=True,
+                    text=True,
+                    timeout=EXECUTION_TIMEOUT,
+                )
+
+                # Return the output and error (if any)
+                return result.stdout, result.stderr
+
+            except TimeoutExpired:
+                # Execution exceeded the timeout
+                # Terminate the subprocess if it exists
+                if result is not None:
+                    subprocess.Popen.terminate(result)
+                return None, "Execution Timeout"
+
         else:
             # Execution if compilation fails
             error_message = compile_result.stderr
 
-            return None, "Compiled Error"
+            return None, "Compilation Error"
 
     finally:
         # Remove the temporary directory and its contents
