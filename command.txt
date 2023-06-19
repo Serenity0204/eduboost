@@ -10,7 +10,7 @@ GIT:
     // force pull
     git fetch --all
     git branch backup-master // for backup
-    git branch backup-master
+    git reset --hard origin/master
 
 Django:
     pip install Django
