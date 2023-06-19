@@ -6,6 +6,11 @@ GIT:
     cd into working dir
     git push -d https://github.com/stephengineer-CS008-classroom/10_15_avl_tree-Serenity0204 results
     git branch -d results
+    
+    // force pull
+    git fetch --all
+    git branch backup-master // for backup
+    git branch backup-master
 
 Django:
     pip install Django
