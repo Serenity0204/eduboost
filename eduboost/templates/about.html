@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .card {
+        height: 100%;
+    }
+</style>
 <div class="container">
     <div class="d-flex justify-content-center">
         <h1>About Us</h1>
@@ -9,7 +14,7 @@
         <div class="card bg-dark text-white">
             <div class="card-body">
                 <p class="text-center px-4 bg-gray rounded-lg" style="font-size: 18px;">
-                    Welcome to EduBoost! We are Yu-Heng Lin, Hanbin Tan, and Deysi Chen three passionate students
+                    Welcome to EduBoost! We are Yu-Heng Lin and Deysi Chen two passionate students
                     dedicated to sharing educational opportunities and providing hands-on experience to everyone.
                     With a shared vision of making education accessible and engaging, we founded this platform to
                     empower learners of all backgrounds to acquire knowledge and develop practical skills.
@@ -19,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 mt-4">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow h-100"> <!-- Add the "h-100" class here -->
                 <img class="card-img-top" src="{% static 'img/YHL.png' %}" alt="YHL" width="300" height="500">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div>
@@ -35,24 +40,9 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-md-6 mt-4">
-            <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="{% static 'img/hanbin.png' %}" alt="HB" width="300" height="500">
-                <div class="card-body d-flex flex-column justify-content-between">
-                    <div>
-                        <p class="card-text">
-                            Hey, I'm Hanbin Tan, a sophomore studying computer science at Pasadena City College. 
-                            I'm passionate about hands-on learning and its ability to foster creativity and problem-solving skills. 
-                            I believe in the transformative power of practical experiences, and I'm dedicated to sharing this 
-                            passion with others. 
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 mt-4">
-            <div class="card mb-4 box-shadow">
+            <div class="card mb-4 box-shadow h-100"> <!-- Add the "h-100" class here -->
                 <img class="card-img-top" src="{% static 'img/deysi.png' %}" alt="DEYSI" width="300" height="500">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <div>
@@ -68,6 +58,7 @@
                 </div>
             </div>
         </div>
+    </div>
     <div class="card text-center my-4" style="background-color: lightblue;">
         <div class="card-body">
             <p class="card-text" style="font-size: 20px; color: black;">
