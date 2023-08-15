@@ -8,4 +8,5 @@ urlpatterns = [
     path(
         "<int:exercise_id>/", views.exercise_detail_view, name="coding_exercise_detail"
     ),
+    path("search/", views.exercise_search_view, name="coding_exercise_search"),
 ]

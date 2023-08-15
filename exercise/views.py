@@ -9,17 +9,40 @@ from django.utils import timezone
 from datetime import timedelta
 from .forms import CppForm
 from .utils import run_cpp
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 
 
 def exercise_view(request):
-    exercises = Exercise.objects.all()
+    request.session.set_expiry(900)
+    exercises_list = Exercise.objects.all()
+
+    paginator = Paginator(exercises_list, 5)  # Show 5 exercise per page.
+    page_number = request.GET.get("page")
+    exercises = paginator.get_page(page_number)
+
+    context = {"exercises": exercises}
+    return render(request, "exercise.html", context)
+
+
+def exercise_search_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
+    query = request.GET.get("query")
+    if not query:
+        return redirect("coding_exercise")
+
+    exercises_list = Exercise.objects.filter(title__startswith=query)
+    paginator = Paginator(exercises_list, 5)  # Show 5 exercise per page.
+    page_number = request.GET.get("page")
+    exercises = paginator.get_page(page_number)
+
     context = {"exercises": exercises}
     return render(request, "exercise.html", context)
 
 
 @login_required(login_url="login")
 def exercise_detail_view(request, exercise_id):
+    request.session.set_expiry(900)
     context = {}
     exercise = Exercise.objects.get(id=exercise_id)
     answer = exercise.answer

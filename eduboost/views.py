@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Course
 from django.utils import timezone
 from datetime import timedelta
+from django.core.paginator import Paginator
 
 
 def login_view(request):
@@ -81,7 +82,12 @@ def about_view(request):
 
 def courses_view(request):
     request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
-    courses = Course.objects.all()
+    courses_list = Course.objects.all()
+
+    paginator = Paginator(courses_list, 6)  # Show 6 courses per page.
+    page_number = request.GET.get("page")
+    courses = paginator.get_page(page_number)
+
     context = {"courses": courses}
     return render(request, "courses.html", context)
 
@@ -89,19 +95,47 @@ def courses_view(request):
 def search_view(request):
     request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     query = request.GET.get("query")
-    if query:
-        courses = Course.objects.filter(title__startswith=query)
-    else:
-        courses = []
-    context = {"courses": courses, "query": query}
-    return render(request, "search.html", context)
+    if not query:
+        return redirect("courses")
+
+    courses_list = Course.objects.filter(title__startswith=query)
+    paginator = Paginator(courses_list, 5)  # Show 5 courses per page.
+    page_number = request.GET.get("page")
+    courses = paginator.get_page(page_number)
+
+    context = {"courses": courses}
+    return render(request, "courses.html", context)
 
 
 @login_required(login_url="login")
 def profile_view(request):
     request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
     user = request.user
-    courses = user.courses.all()
+    courses_list = user.courses.all()
+
+    paginator = Paginator(courses_list, 6)  # Show 6 courses per page.
+    page_number = request.GET.get("page")
+    courses = paginator.get_page(page_number)
+
+    context = {"courses": courses}
+    return render(request, "profile.html", context)
+
+
+@login_required(login_url="login")
+def profile_search_view(request):
+    request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
+    user = request.user
+
+    query = request.GET.get("query")
+    if not query:
+        return redirect("profile")
+
+    courses_list = user.courses.filter(title__startswith=query)
+
+    paginator = Paginator(courses_list, 6)  # Show 6 courses per page.
+    page_number = request.GET.get("page")
+    courses = paginator.get_page(page_number)
+
     context = {"courses": courses}
     return render(request, "profile.html", context)
 
