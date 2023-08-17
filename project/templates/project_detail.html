@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-center mt-4">{{ project.title }}</h1>
+<p class="text-center mt-4">{{ project.description }}</p>
+<hr>
+{% for section in project.sections.all %}
+<div class="mb-4">
+    <h2 class="text-center mt-4">{{ section.title }}</h2>
+    <p class="text-center mt-4">{{ section.content }}</p>
+    <div class="d-flex flex-column">
+        {% if section.code_snippet %}
+            <button class="btn btn-link text-center mt-4" type="button" data-toggle="collapse" data-target="#snippet{{ section.id }}" aria-expanded="false" aria-controls="snippet{{ section.id }}">
+                Code Snippet
+            </button>
+            <div class="collapse" id="snippet{{ section.id }}">
+                <pre><code>{{ section.code_snippet }}</code></pre>
+            </div>
+        {% endif %}
+        {% if section.image %}
+            <div class="d-flex justify-content-center">
+                <img src="{{ section.image.url }}" alt="Section Image" class="img-fluid" width="300" height="300">
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
