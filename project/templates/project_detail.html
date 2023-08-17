@@ -3,27 +3,51 @@
 {% block content %}
 
 <h1 class="text-center mt-4">{{ project.title }}</h1>
-<p class="text-center mt-4">{{ project.description }}</p>
-<hr>
-{% for section in project.sections.all %}
-<div class="mb-4">
-    <h2 class="text-center mt-4">{{ section.title }}</h2>
-    <p class="text-center mt-4">{{ section.content }}</p>
-    <div class="d-flex flex-column">
-        {% if section.code_snippet %}
-            <button class="btn btn-link text-center mt-4" type="button" data-toggle="collapse" data-target="#snippet{{ section.id }}" aria-expanded="false" aria-controls="snippet{{ section.id }}">
-                Code Snippet
-            </button>
-            <div class="collapse" id="snippet{{ section.id }}">
-                <pre><code>{{ section.code_snippet }}</code></pre>
-            </div>
-        {% endif %}
-        {% if section.image %}
-            <div class="d-flex justify-content-center">
-                <img src="{{ section.image.url }}" alt="Section Image" class="img-fluid" width="300" height="300">
-            </div>
-        {% endif %}
+<div class="d-flex justify-content-center mt-4">
+    <div class="card bg-dark text-white">
+        <div class="card-body">
+            <p class="text-center px-4" style="font-size: 18px;">{{ project.description }}</p>
+        </div>
     </div>
 </div>
+<hr>
+<div class="table-of-contents text-center mt-4">
+    <h2 class="mb-4">Table of Contents</h2>
+    <ul class="list-group">
+        {% for section in project.sections.all %}
+            <li class="list-group-item"><a href="#section{{ section.id }}">{{ section.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<ul class="list-group mt-4">
+{% if not project.sections.all %}
+<div class="d-flex justify-content-center">
+    <h3 class="text-center">Empty</h3>   
+</div>
+{% endif %}
+{% for section in project.sections.all %}
+    <li class="list-group-item mb-3 border border-2 border-primary">
+        <div class="mb-4" id="section{{ section.id }}">
+            <h2 class="text-center mt-4">{{ section.title }}</h2>
+            {% if section.image %}
+                <div class="d-flex justify-content-center">
+                    <img src="{{ section.image.url }}" alt="Section Image" class="img-fluid" width="450px" height="300px">
+                </div>
+            {% endif %}
+            <p class="text-center mt-4">{{ section.content }}</p>
+            <div class="d-flex flex-column">
+                {% if section.code_snippet %}
+                    <button class="btn btn-link text-center mt-4" type="button" data-toggle="collapse" data-target="#snippet{{ section.id }}" aria-expanded="true" aria-controls="snippet{{ section.id }}">
+                        Code Snippet
+                    </button>
+                    <div class="collapse show" id="snippet{{ section.id }}">
+                        <pre><code>{{ section.code_snippet }}</code></pre>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </li>
 {% endfor %}
+</ul>
 {% endblock %}

@@ -71,6 +71,18 @@
   </div>
 </div>
 
+<div class="row my-4">
+<div class="col-md-12">
+    <form class="form-inline justify-content-center" action="{% url 'project_search' %}" method="GET">
+        <div class="form-group">
+            <input type="text" class="form-control" name="query" placeholder="Search Projects" required>
+        </div>
+        <button type="submit" class="btn btn-primary ml-2">Search</button>
+        <a class="btn btn-primary ml-2" href={% url 'projects' %}>All Projects</a>
+    </form>
+</div>
+</div>
+
 <div class="list-group mt-4">
 {% if not projects %}
 <div class="d-flex justify-content-center">
