@@ -1,12 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib import messages
 from .models import Course
-from django.utils import timezone
-from datetime import timedelta
 from django.core.paginator import Paginator
 
 

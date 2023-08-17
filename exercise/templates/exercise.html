@@ -86,7 +86,7 @@
       <div class="card h-100">
         <div class="card-body d-flex flex-column align-items-center">
           <h5 class="card-title text-center" style="white-space: normal;">{{ exercise.title }}</h5>
-          <p class="card-text text-center">{{ exercise.description|truncatewords:10 }}</p>
+          <p class="card-text text-center">{{ exercise.description|truncatechars:75 }}</p>
         </div>
         <div class="card-footer bg-white border-top-0">
           <a href="{% url 'coding_exercise_detail' exercise.id %}" class="btn btn-primary btn-block">Start Exercise</a>
