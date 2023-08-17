@@ -40,7 +40,7 @@
                                 {% for video in lesson.videos.all %}
                                     <div class="card-body">
                                         <h4 class="card-title">{{ video.title }}</h4>
-                                        <iframe class="embed-responsive-item" width="560" height="315"
+                                        <iframe class="embed-responsive-item" width="400px" height="325px"
                                             src="{{ video.youtube_link }}" frameborder="0" allowfullscreen></iframe>
                                     </div>
                                 {% endfor %}
