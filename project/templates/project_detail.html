@@ -19,6 +19,11 @@
         {% endfor %}
     </ul>
 </div>
+{% if project.github_url %}
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{{ project.github_url }}" class="btn btn-primary" target="_blank">Source Code</a>
+    </div>
+{% endif %}
 
 <ul class="list-group mt-4">
 {% if not project.sections.all %}
