@@ -43,10 +43,10 @@
             <p class="text-center mt-4">{{ section.content }}</p>
             <div class="d-flex flex-column">
                 {% if section.code_snippet %}
-                    <button class="btn btn-link text-center mt-4" type="button" data-toggle="collapse" data-target="#snippet{{ section.id }}" aria-expanded="true" aria-controls="snippet{{ section.id }}">
+                    <button class="btn btn-link text-center mt-4" type="button" data-toggle="collapse" data-target="#snippet{{ section.id }}" aria-expanded="false" aria-controls="snippet{{ section.id }}">
                         Code Snippet
                     </button>
-                    <div class="collapse show" id="snippet{{ section.id }}">
+                    <div class="collapse" id="snippet{{ section.id }}">
                         <pre><code>{{ section.code_snippet }}</code></pre>
                     </div>
                 {% endif %}
