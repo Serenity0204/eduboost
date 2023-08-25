@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 def exercise_view(request):
     request.session.set_expiry(900)
-    exercises_list = Exercise.objects.all()
+    exercises_list = Exercise.objects.all().order_by("id")
 
     paginator = Paginator(exercises_list, 5)  # Show 5 exercise per page.
     page_number = request.GET.get("page")
@@ -25,7 +25,7 @@ def exercise_search_view(request):
     if not query:
         return redirect("coding_exercise")
 
-    exercises_list = Exercise.objects.filter(title__startswith=query)
+    exercises_list = Exercise.objects.filter(title__startswith=query).order_by("id")
     paginator = Paginator(exercises_list, 5)  # Show 5 exercise per page.
     page_number = request.GET.get("page")
     exercises = paginator.get_page(page_number)

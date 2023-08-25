@@ -8,7 +8,7 @@ from django.http import FileResponse
 def projects_view(request):
     request.session.set_expiry(900)
 
-    projects_list = Project.objects.all()
+    projects_list = Project.objects.all().order_by("id")
 
     paginator = Paginator(projects_list, 5)  # Show 5 projects per page.
 
@@ -27,7 +27,7 @@ def project_search_view(request):
     if not query:
         return redirect("projects")
 
-    projects_list = Project.objects.filter(title__startswith=query)
+    projects_list = Project.objects.filter(title__startswith=query).order_by("id")
     paginator = Paginator(projects_list, 5)  # Show 5 projects per page.
     page_number = request.GET.get("page")
     projects = paginator.get_page(page_number)

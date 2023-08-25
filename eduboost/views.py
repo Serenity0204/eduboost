@@ -80,7 +80,7 @@ def about_view(request):
 
 def courses_view(request):
     request.session.set_expiry(900)  # Reset session expiry to 15 minutes (900 seconds)
-    courses_list = Course.objects.all()
+    courses_list = Course.objects.all().order_by("id")
 
     paginator = Paginator(courses_list, 6)  # Show 6 courses per page.
     page_number = request.GET.get("page")
@@ -96,7 +96,7 @@ def search_view(request):
     if not query:
         return redirect("courses")
 
-    courses_list = Course.objects.filter(title__startswith=query)
+    courses_list = Course.objects.filter(title__startswith=query).order_by("id")
     paginator = Paginator(courses_list, 5)  # Show 5 courses per page.
     page_number = request.GET.get("page")
     courses = paginator.get_page(page_number)
@@ -128,7 +128,7 @@ def profile_search_view(request):
     if not query:
         return redirect("profile")
 
-    courses_list = user.courses.filter(title__startswith=query)
+    courses_list = user.courses.filter(title__startswith=query).order_by("id")
 
     paginator = Paginator(courses_list, 6)  # Show 6 courses per page.
     page_number = request.GET.get("page")
